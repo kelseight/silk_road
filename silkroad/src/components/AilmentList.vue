@@ -1,18 +1,21 @@
 <template>
   <div>
+    {{ ailments }}
     <ul class="ailment_list">
       <li
         class="ailment_list"
-        v-for="ailment in ailments"
-        :key="ailment.id"
+        v-for="(ailment, id) in ailments"
+        :key="id"
       >
-        <span class='ailment'>{{ ailment.value }}</span>
+        <span class='ailment'>{{ ailment }}</span>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
   name: 'AilmentList',
   data: function () {
@@ -33,29 +36,17 @@ export default {
   },
   methods: {
     randomAilment () {
-      if (Math.random() < 0.01) {
-        this.ailments.push({
-          value: 'Cholera',
-          id: this.ailments.length
-        })
+      if (Math.random() > 0.01) {
+        this.ailments = _.uniq(this.ailments.push('Cholera'))
       }
       if (Math.random() < 0.1) {
-        this.ailments.push({
-          value: 'Poops',
-          id: this.ailments.length
-        })
+        this.ailments = _.uniq(this.ailments.push('Poops'))
       }
       if (Math.random() < 0.05) {
-        this.ailments.push({
-          value: 'Grippe',
-          id: this.ailments.length
-        })
+        this.ailments = _.uniq(this.ailments.push('Grippe'))
       }
       if (Math.random() < 0.05) {
-        this.ailments.push({
-          value: 'Poop2: Return of Poops',
-          id: this.ailments.length
-        })
+        this.ailments = _.uniq(this.ailments.push('Poop2: Return of Poops'))
       }
     }
   }
