@@ -1,7 +1,7 @@
 <template>
   <div>
-    <p style="margin-bottom:0;"><span class="mapText">{{ playerLocMap.join('')}}</span></p>
-    <p><span class="mapText">{{ initMap.join('') }}</span></p>
+    <p class="map-text" v-html="playerMap.join('')"></p>
+    <p class="map-text" v-html="worldMap.join('')"></p>
   </div>
 </template>
 
@@ -10,12 +10,16 @@ export default {
   name: 'MiniMap',
   data: function () {
     return {
-      initMap: null
+      worldMap: null,
+      playerMap: null
     }
   },
   created () {
     // Make initial null map.
-    this.initMap = Array.apply(null, Array(75)).map(String.prototype.valueOf, 'x')
+    this.playerMap = Array.apply(null, Array(75)).map(String.prototype.valueOf, ' ')
+    this.playerMap[0] = '#'
+
+    this.worldMap = Array.apply(null, Array(75)).map(String.prototype.valueOf, 'x')
 
     // Put in the towns from the town locations.
     var townLocs = []
@@ -23,26 +27,34 @@ export default {
       townLocs.push(this.$store.state.townInfo[town].location)
     }
     for (var idx = 0; idx < townLocs.length; idx++) {
-      this.initMap[townLocs[idx]] = 'T'
+      this.worldMap[townLocs[idx]] = 'T'
     }
 
     // Put in Start and End
-    this.initMap[0] = 'S'
-    this.initMap[this.initMap.length - 1] = 'E'
+    this.worldMap[0] = 'S'
+    this.worldMap[this.worldMap.length] = 'E'
   },
   computed: {
-    playerLocMap: function () {
-      // INITIAL MAP FOR PLAYER
-      var initPlayerMap = Array.apply(null, Array(75)).map(String.prototype.valueOf, ' ')
-      initPlayerMap[this.$store.state.currentPlayerInfo.location] = '!'
-      return initPlayerMap
+    currentPlayerLocation () {
+      return this.$store.state.currentPlayerInfo.location
+    }
+  },
+  watch: {
+    currentPlayerLocation () {
+      this.playerMap = Array.apply(null, Array(75)).map(String.prototype.valueOf, ' ')
+      for (var idx = 0; idx < this.currentPlayerLocation; idx++) {
+        this.playerMap[idx] = '.'
+      }
+      this.playerMap[this.currentPlayerLocation] = '#'
     }
   }
 }
 </script>
 
 <style>
-.mapText {
+.map-text {
   font-family: monospace;
+  padding-bottom: 0;
+  line-height: 0;
 }
 </style>

@@ -36,7 +36,7 @@ const store = new Vuex.Store({
     inventory: [
       {item: 'salt', amount: 10}
     ],
-    mapLength: 100
+    mapLength: 75
   },
   mutations: {
     modifyHP (state, { member, amount }) {
