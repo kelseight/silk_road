@@ -7,18 +7,28 @@ import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
+import MiniMap from './components/parts/MiniMap.vue'
+
+Vue.component(MiniMap.name, MiniMap)
+
 Vue.use(Vuetify)
 Vue.use(Vuex)
 
-const worldMap = {
+const currentPlayerInfo = {
+  location: 0,
+  day: 0,
+  atTown: 0
+}
+
+const townInfo = {
   'Coolville': { location: 30 },
   'Uncoolsville': { location: 50 }
 }
 
 const store = new Vuex.Store({
   state: {
-    location: 0,
-    day: 0,
+    currentPlayerInfo: currentPlayerInfo,
+    townInfo: townInfo,
     partyMembers: {
       'Billy': {hp: 100},
       'Jimmy': {hp: 20}
@@ -26,18 +36,17 @@ const store = new Vuex.Store({
     inventory: [
       {item: 'salt', amount: 10}
     ],
-    worldMap: worldMap,
-    atTown: null
+    mapLength: 100
   },
   mutations: {
     modifyHP (state, { member, amount }) {
       state.partyMembers[member].hp += amount
     },
     advanceDay (state) {
-      state.day++
+      state.currentPlayerInfo.day++
     },
     advanceLocation (state, {amount}) {
-      state.location += amount
+      state.currentPlayerInfo.location += amount
     }
   }
 })
