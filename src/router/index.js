@@ -5,6 +5,7 @@ import Game from '@/components/Game'
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',

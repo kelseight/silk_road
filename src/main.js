@@ -7,6 +7,10 @@ import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
+// Scripts
+import makeTownInfo from './scripts/makeTownInfo.js'
+
+// Components
 import MiniMap from './components/parts/MiniMap.vue'
 
 Vue.component(MiniMap.name, MiniMap)
@@ -20,10 +24,7 @@ const currentPlayerInfo = {
   atTown: 0
 }
 
-const townInfo = {
-  'Coolville': { location: 30 },
-  'Uncoolsville': { location: 50 }
-}
+const townInfo = makeTownInfo()
 
 const store = new Vuex.Store({
   state: {
@@ -31,7 +32,7 @@ const store = new Vuex.Store({
     townInfo: townInfo,
     partyMembers: {
       'Billy': {hp: 100},
-      'Jimmy': {hp: 20}
+      'Jimmy': {hp: 100}
     },
     inventory: [
       {item: 'salt', amount: 10}

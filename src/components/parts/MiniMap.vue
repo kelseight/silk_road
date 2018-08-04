@@ -19,7 +19,7 @@ export default {
     this.playerMap = Array.apply(null, Array(75)).map(String.prototype.valueOf, ' ')
     this.playerMap[0] = '#'
 
-    this.worldMap = Array.apply(null, Array(75)).map(String.prototype.valueOf, 'x')
+    this.worldMap = Array.apply(null, Array(75)).map(String.prototype.valueOf, '-')
 
     // Put in the towns from the town locations.
     var townLocs = []
