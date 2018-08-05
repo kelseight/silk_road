@@ -1,8 +1,16 @@
 <template>
-  <div>
-    <p class="map-text" v-html="playerMap.join('')"></p>
-    <p class="map-text" v-html="worldMap.join('')"></p>
-  </div>
+  <v-container text-xs>
+    <v-layout row wrap>
+      <v-flex xs12>
+        <v-card dark color="green lighten-1">
+          <v-card-text class="px-0">
+            <p class="map-text" v-html="playerMap.join('')"></p>
+            <p class="map-text" v-html="worldMap.join('')"></p>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -56,5 +64,8 @@ export default {
   font-family: monospace;
   padding-bottom: 0;
   line-height: 0;
+  font-weight: bolder;
+  font-size: 16px;
+  margin-left: 10px
 }
 </style>

@@ -9,6 +9,7 @@ import 'vuetify/dist/vuetify.min.css'
 
 // Scripts
 import makeTownInfo from './scripts/makeTownInfo.js'
+import makePartyInfo from './scripts/makePartyInfo.js'
 
 // Components
 import MiniMap from './components/parts/MiniMap.vue'
@@ -25,18 +26,13 @@ const currentPlayerInfo = {
 }
 
 const townInfo = makeTownInfo()
+const partyInfo = makePartyInfo()
 
 const store = new Vuex.Store({
   state: {
     currentPlayerInfo: currentPlayerInfo,
+    partyInfo: partyInfo,
     townInfo: townInfo,
-    partyMembers: {
-      'Billy': {hp: 100},
-      'Jimmy': {hp: 100}
-    },
-    inventory: [
-      {item: 'salt', amount: 10}
-    ],
     mapLength: 75
   },
   mutations: {

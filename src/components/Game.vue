@@ -1,16 +1,61 @@
 <template>
   <v-container fluid>
-    <mini-map/>
-    <p v-if="currentTown"><v-icon>home</v-icon> You arrive at {{currentTown}}.</p>
-    <p v-else-if="atEnd"><v-icon>business</v-icon>You reached the end!</p>
-    <p v-else>&nbsp;</p>
-    <p>Day: {{ $store.state.currentPlayerInfo.day }}</p>
-    <p>Location: {{ currentPlayerLocation }}</p>
-    <p>Jimmy HP: {{ $store.state.partyMembers["Jimmy"]["hp"] }}</p>
-    <p>Billy HP: {{ $store.state.partyMembers["Billy"]["hp"] }}</p>
-    <br/><hr/><br/>
-    <v-btn color="info" @click="hurtCharacter()">Change HP</v-btn>
+
     <v-btn color="info" :disabled="atEnd" @click="nextDay()">Advance Day</v-btn>
+
+    <br/><br/><hr/><br/>
+
+    <mini-map/>
+
+    <v-container grid-list-md text-xs-center>
+      <v-layout row wrap>
+        <v-flex xs12>
+          <v-card dark color="green lighten-1" v-if="currentTown">
+            <v-card-text class="px-0">
+              <h3><v-icon>home</v-icon> You arrive at {{currentTown}}.</h3>
+            </v-card-text>
+          </v-card>
+          <v-card dark color="green lighten-1" v-else-if="atEnd">
+            <v-card-text class="px-0">
+              <h3><v-icon>business</v-icon>You reached the end!</h3>
+            </v-card-text>
+          </v-card>
+          <v-card dark color="green lighten-1" v-else>
+            <v-card-text class="px-0">
+              <h3>You're on the trail.</h3>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+
+        <v-flex xs6>
+          <v-card dark color="blue lighten-2">
+            <v-card-text class="px-0">
+              <h2>Debug Information</h2>
+              <p><b>Day</b>: {{ $store.state.currentPlayerInfo.day }}</p>
+              <p><b>Location</b>: {{ currentPlayerLocation }}</p>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+
+        <v-flex xs6>
+          <v-card dark color="blue lighten-2">
+            <v-card-text class="px-0">
+              <h2>Party</h2>
+              <ul style="list-style-type: none; padding: 0; margin: 0;">
+                <li v-for="(partyMemberInfo, partyMember, index) in partyMembers" :key="`partyMember-${index}`">
+                  <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    <li><b><span style="color: #4400aa;">{{ partyMember }}</span></b></li>
+                    <li><b>HP</b>: {{ partyMemberInfo.hp }}</li>
+                    <li>&nbsp;</li>
+                  </ul>
+                </li>
+              </ul>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+
+      </v-layout>
+    </v-container>
   </v-container>
 </template>
 
@@ -27,15 +72,15 @@ export default {
   computed: {
     currentPlayerLocation () {
       return this.$store.state.currentPlayerInfo.location
+    },
+    partyInventory () {
+      return this.$store.state.partyInfo.inventory
+    },
+    partyMembers () {
+      return this.$store.state.partyInfo.partyMembers
     }
   },
   methods: {
-    hurtCharacter: function () {
-      var hpChange = Math.floor((Math.random() - 0.5) * 20)
-      var member = 'Jimmy'
-
-      this.$store.commit('modifyHP', {member: member, amount: hpChange})
-    },
     nextDay: function () {
       var locationDelta = Math.floor((Math.random()) * 10) + 1
       this.$store.commit('advanceDay')
@@ -75,3 +120,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+h2 {
+  margin-bottom: 1rem;
+}
+</style>

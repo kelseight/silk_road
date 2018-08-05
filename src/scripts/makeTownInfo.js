@@ -3,8 +3,8 @@ function makeRandomTownName () {
     'Blood', 'Banana', 'Apple', 'Coconut', 'Lock', 'Java',
     'Anana', 'Anna', 'Water', 'Pill', 'Sheet', 'Lake', 'Skag',
     'June', 'Kill', 'Murder']
-  var lastPart = ['gate', 'way', 'town', 'smith', 'sdale', 'mountain',
-    ' Lake', ' Hollows', ' Hallows', 'stench', 'grove',
+  var lastPart = ['gate', 'way', 'town', 'smith', 'sdale', ' Mountain',
+    ' Lake', ' Hollows', ' Hallows', 'stench', 'sgrove', ' Grove',
     'sberg']
 
   var first = firstPart[Math.floor(firstPart.length * Math.random())]
