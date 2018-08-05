@@ -3,16 +3,16 @@ function makeRandomTownName () {
     'Blood', 'Banana', 'Apple', 'Coconut', 'Lock', 'Java',
     'Anana', 'Anna', 'Water', 'Pill', 'Sheet', 'Lake', 'Skag',
     'June', 'Kill', 'Murder', 'Rock', 'Wildflower', 'Allen', 'Water',
-    'Riley', 'Crag', 'River', 'Peace', 'Pleasant', 'Dry', 'Prairie', 
+    'Riley', 'Crag', 'River', 'Peace', 'Pleasant', 'Dry', 'Prairie',
     'Chestnut', 'Cream', 'Bone', 'Death', 'York', 'Feather', 'Orange',
     'Victory', 'Disappointment', 'Wonder', 'Great', 'Choco', 'Fire',
-    'Twin', 'Cat', 'Gold', 'Silver', 'Copper', 'Shadow', 'Ghost', 
+    'Twin', 'Cat', 'Gold', 'Silver', 'Copper', 'Shadow', 'Ghost',
     'Haunted', 'Skeleton', 'Angel', 'West', 'East', 'North', 'South',
     'Dust', 'Sun', 'Bean', 'New', 'Wind', 'Rain', 'Emerald', 'Ruby',
     'Star', 'Starling', 'Blood', 'Johnson', 'Rio']
   var lastPart = ['gate', 'way', 'town', 'smith', 'sdale', ' Mountain',
     ' Lake', ' Hollows', ' Hallows', 'stench', 'sgrove', ' Grove',
-    'sberg', ' Ridge', ' Haven', ' Rock', 'ville', 'crest', 'dale', 
+    'sberg', ' Ridge', ' Haven', ' Rock', 'ville', 'crest', 'dale',
     'ston', ' Plains', '', ' City', 'land', 'sdale', 'grove', 'ton',
     'berg', ' Creek', ' Valley']
 
