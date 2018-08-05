@@ -13,7 +13,7 @@ function makeRandomTownName () {
   return first + last
 }
 
-function makeTownInfo (nTowns = 4, minDelta = 10, maxDelta = null) {
+function makeTownInfo (nTowns = 3, minDelta = 3, maxDelta = null) {
   // nTowns :: number of towns you want, excluding start and end.
   // minDelta :: the minimum distance between towns.
   // maxDelta :: the maximum distance betwene towns.

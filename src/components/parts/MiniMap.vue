@@ -19,15 +19,16 @@ export default {
   data: function () {
     return {
       worldMap: null,
-      playerMap: null
+      playerMap: null,
+      mapSize: 20
     }
   },
   created () {
     // Make initial null map.
-    this.playerMap = Array.apply(null, Array(75)).map(String.prototype.valueOf, ' ')
-    this.playerMap[0] = '#'
+    this.playerMap = Array.apply(null, Array(this.mapSize)).map(String.prototype.valueOf, ' ')
+    this.playerMap[0] = '<img src="./../static/images/wagon1.png"/>'
 
-    this.worldMap = Array.apply(null, Array(75)).map(String.prototype.valueOf, '-')
+    this.worldMap = Array.apply(null, Array(this.mapSize)).map(String.prototype.valueOf, '<img src="./../static/images/grass1.png"/>')
 
     // Put in the towns from the town locations.
     var townLocs = []
@@ -35,12 +36,12 @@ export default {
       townLocs.push(this.$store.state.townInfo[town].location)
     }
     for (var idx = 0; idx < townLocs.length; idx++) {
-      this.worldMap[townLocs[idx]] = 'T'
+      this.worldMap[townLocs[idx]] = '<img src="./../static/images/town1.png"/>'
     }
 
     // Put in Start and End
-    this.worldMap[0] = 'S'
-    this.worldMap[this.worldMap.length] = 'E'
+    this.worldMap[0] = '<img src="./../static/images/start.png"/>'
+    this.worldMap[this.worldMap.length] = '<img src="./../static/images/finish.png"/>'
   },
   computed: {
     currentPlayerLocation () {
@@ -49,11 +50,11 @@ export default {
   },
   watch: {
     currentPlayerLocation () {
-      this.playerMap = Array.apply(null, Array(75)).map(String.prototype.valueOf, ' ')
+      this.playerMap = Array.apply(null, Array(this.mapSize)).map(String.prototype.valueOf, ' ')
       for (var idx = 0; idx < this.currentPlayerLocation; idx++) {
-        this.playerMap[idx] = '.'
+        this.playerMap[idx] = '<img src="./../static/images/transparent.png"/>'
       }
-      this.playerMap[this.currentPlayerLocation] = '#'
+      this.playerMap[this.currentPlayerLocation] = '<img src="./../static/images/wagon1.png"/>'
     }
   }
 }

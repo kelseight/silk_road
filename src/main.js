@@ -45,7 +45,7 @@ const store = new Vuex.Store({
     currentPlayerInfo: currentPlayerInfo,
     partyInfo: partyInfo,
     townInfo: townInfo,
-    mapLength: 75
+    mapLength: 20
   },
   mutations: {
     modifyHP (state, { member, amount }) {
