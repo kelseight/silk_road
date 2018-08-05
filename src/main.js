@@ -22,7 +22,8 @@ Vue.use(Vuex)
 const currentPlayerInfo = {
   location: 0,
   day: 0,
-  atTown: 0
+  atTown: 0,
+  alive: true
 }
 
 const townInfo = makeTownInfo()
@@ -37,13 +38,24 @@ const store = new Vuex.Store({
   },
   mutations: {
     modifyHP (state, { member, amount }) {
-      state.partyMembers[member].hp += amount
+      state.partyInfo.partyMembers[member].hp += amount
     },
     advanceDay (state) {
       state.currentPlayerInfo.day++
     },
     advanceLocation (state, {amount}) {
       state.currentPlayerInfo.location += amount
+    },
+    checkPartyHealth (state) {
+      for (var member in state.partyInfo.partyMembers) {
+        if (state.partyInfo.partyMembers[member].hp <= 0) {
+          state.partyInfo.deadPartyMembers.push(member)
+          delete state.partyInfo.partyMembers[member]
+        }
+      }
+      if (Object.keys(state.partyInfo.partyMembers).length === 0) {
+        state.currentPlayerInfo.alive = false
+      }
     }
   }
 })

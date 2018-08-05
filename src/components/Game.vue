@@ -1,7 +1,10 @@
 <template>
   <v-container fluid>
 
-    <v-btn color="info" :disabled="atEnd" @click="nextDay()">Advance Day</v-btn>
+    <v-btn color="info" :disabled="atEnd || !isAlive" @click="nextDay(locationDelta=Math.floor((Math.random()) * 10) + 1
+)">Advance Day</v-btn>
+    <v-btn color="info" :disabled="atEnd || !isAlive" @click="nextDay(locationDelta=0)">Rest</v-btn>
+    <v-btn color="error" :disabled="atEnd || !isAlive" @click="modifyHP(member=getRandomPartyMember(), amount=-99)">Hurt Party Member</v-btn>
 
     <br/><br/><hr/><br/>
 
@@ -18,6 +21,11 @@
           <v-card dark color="green lighten-1" v-else-if="atEnd">
             <v-card-text class="px-0">
               <h3><v-icon>business</v-icon>You reached the end!</h3>
+            </v-card-text>
+          </v-card>
+          <v-card dark color="red lighten-1" v-else-if="!isAlive">
+            <v-card-text class="px-0">
+              <h3><v-icon>gavel</v-icon>Your party is dead.</h3>
             </v-card-text>
           </v-card>
           <v-card dark color="green lighten-1" v-else>
@@ -50,6 +58,17 @@
                   </ul>
                 </li>
               </ul>
+
+              <h2>Graveyard</h2>
+              <ul style="list-style-type: none; padding: 0; margin: 0;">
+                <li v-for="(partyMember, index) in deadPartyMembers" :key="`deadPartyMember-${index}`">
+                  <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    <li><b><span style="color: #4400aa;">{{ partyMember }}</span></b></li>
+                    <li>&nbsp;</li>
+                  </ul>
+                </li>
+              </ul>
+
             </v-card-text>
           </v-card>
         </v-flex>
@@ -78,27 +97,35 @@ export default {
     },
     partyMembers () {
       return this.$store.state.partyInfo.partyMembers
+    },
+    deadPartyMembers () {
+      return this.$store.state.partyInfo.deadPartyMembers
+    },
+    isAlive () {
+      return this.$store.state.currentPlayerInfo.alive
     }
   },
   methods: {
-    nextDay: function () {
-      var locationDelta = Math.floor((Math.random()) * 10) + 1
-      this.$store.commit('advanceDay')
+    nextDay: function (locationDelta) {
+      // Make sure alive.
+      // All HP stuff goes here, before we move.
+      // TODO: Decrease HP as necessary.
+      this.$store.commit('checkPartyHealth')
 
-      var townLocDelta = this.isAtTown(locationDelta)
-      if (townLocDelta) {
-        // Are you at a town?
-        this.$store.commit('advanceLocation', {amount: townLocDelta})
+      if (this.isAtTown(locationDelta)) {
+        this.$store.commit('advanceLocation', {amount: this.isAtTown(locationDelta)})
       } else if (this.isAtEnd(locationDelta)) {
-        // Did you beat the game?
         this.$store.commit('advanceLocation', {amount: this.$store.state.mapLength - this.currentPlayerLocation})
         this.atEnd = true
       } else {
         this.$store.commit('advanceLocation', {amount: locationDelta})
       }
+
+      this.$store.commit('advanceDay')
     },
     isAtTown: function (locationDelta) {
       // Can prob redo this and isAtEnd.
+      // BUG: should stay in town after resting.
       for (var town in this.$store.state.townInfo) {
         if (this.$store.state.townInfo[town]['location'] > this.currentPlayerLocation &
             this.$store.state.townInfo[town]['location'] <= this.currentPlayerLocation + locationDelta) {
@@ -116,6 +143,13 @@ export default {
         return true
       }
       return false
+    },
+    modifyHP: function (member, amount) {
+      this.$store.commit('modifyHP', {member: member, amount: amount})
+    },
+    getRandomPartyMember: function () {
+      var keys = Object.keys(this.partyMembers)
+      return keys[keys.length * Math.random() << 0]
     }
   }
 }

@@ -30,6 +30,7 @@ function makePartyInfo (nMembers = 4,
   }
 
   partyInfo['partyMembers'] = partyMembers
+  partyInfo['deadPartyMembers'] = []
   partyInfo['inventory'] = startingInventory
 
   return partyInfo
