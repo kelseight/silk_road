@@ -1,8 +1,7 @@
 <template>
   <v-container fluid>
 
-    <v-btn color="info" :disabled="atEnd || !isAlive" @click="nextDay(locationDelta=Math.floor((Math.random()) * 3) + 1
-)">Advance Day</v-btn>
+    <v-btn color="info" :disabled="atEnd || !isAlive" @click="nextDay(locationDelta=1)">Advance Day</v-btn>
     <v-btn color="info" :disabled="atEnd || !isAlive" @click="nextDay(locationDelta=0)">Rest</v-btn>
     <v-btn color="error" :disabled="atEnd || !isAlive" @click="modifyHP(member=getRandomPartyMember(), amount=-99)">Hurt Party Member</v-btn>
 
@@ -191,7 +190,6 @@ export default {
     },
     isAtEnd: function (locationDelta) {
       if (this.currentPlayerLocation + locationDelta >= this.$store.state.mapLength) {
-        console.log('You got to the end!')
         return true
       }
       return false

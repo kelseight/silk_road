@@ -1,11 +1,10 @@
 <template>
-  <v-container text-xs>
+  <v-container text-xs-center>
     <v-layout row wrap>
       <v-flex xs12>
-        <v-card dark color="green lighten-1">
+        <v-card flat color="grey lighten-5">
           <v-card-text class="px-0">
-            <p class="map-text" v-html="playerMap.join('')"></p>
-            <p class="map-text" v-html="worldMap.join('')"></p>
+            <p class="map-text" v-html="worldMap.slice(Math.max(0,  currentPlayerLocation - 1), Math.min(currentPlayerLocation + 4, mapSize + 1)).join('')"></p>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -20,28 +19,24 @@ export default {
     return {
       worldMap: null,
       playerMap: null,
-      mapSize: 20
+      mapSize: 20,
+      townLocs: [0, 20]
     }
   },
   created () {
-    // Make initial null map.
-    this.playerMap = Array.apply(null, Array(this.mapSize)).map(String.prototype.valueOf, ' ')
-    this.playerMap[0] = '<img src="./../static/images/wagon1.png"/>'
-
-    this.worldMap = Array.apply(null, Array(this.mapSize)).map(String.prototype.valueOf, '<img src="./../static/images/grass1.png"/>')
+    this.worldMap = Array.apply(null, Array(this.mapSize)).map(String.prototype.valueOf, '<img src="./../static/images/plains_128x128_1.png"/>')
 
     // Put in the towns from the town locations.
-    var townLocs = []
     for (var town in this.$store.state.townInfo) {
-      townLocs.push(this.$store.state.townInfo[town].location)
+      this.townLocs.push(this.$store.state.townInfo[town].location)
     }
-    for (var idx = 0; idx < townLocs.length; idx++) {
-      this.worldMap[townLocs[idx]] = '<img src="./../static/images/town1.png"/>'
+    for (var idx = 0; idx < this.townLocs.length; idx++) {
+      this.worldMap[this.townLocs[idx]] = '<img src="./../static/images/plains_with_town_128x128_1.png"/>'
     }
 
     // Put in Start and End
-    this.worldMap[0] = '<img src="./../static/images/start.png"/>'
-    this.worldMap[this.worldMap.length] = '<img src="./../static/images/finish.png"/>'
+    this.worldMap[0] = '<img src="./../static/images/plains_with_town_with_wagon_128x128_1.png"/>'
+    this.worldMap[this.worldMap.length] = '<img src="./../static/images/plains_with_town_128x128_1.png"/>'
   },
   computed: {
     currentPlayerLocation () {
@@ -50,11 +45,19 @@ export default {
   },
   watch: {
     currentPlayerLocation () {
-      this.playerMap = Array.apply(null, Array(this.mapSize)).map(String.prototype.valueOf, ' ')
-      for (var idx = 0; idx < this.currentPlayerLocation; idx++) {
-        this.playerMap[idx] = '<img src="./../static/images/transparent.png"/>'
+      // Create new wagon.
+      if (this.townLocs.includes(this.currentPlayerLocation)) {
+        this.worldMap[this.currentPlayerLocation] = '<img src="./../static/images/plains_with_town_with_wagon_128x128_1.png"/>'
+      } else {
+        this.worldMap[this.currentPlayerLocation] = '<img src="./../static/images/plains_with_wagon_128x128_1.png"/>'
       }
-      this.playerMap[this.currentPlayerLocation] = '<img src="./../static/images/wagon1.png"/>'
+
+      // Delete old wagon trailing you.
+      if (this.townLocs.includes(this.currentPlayerLocation - 1)) {
+        this.worldMap[this.currentPlayerLocation - 1] = '<img src="./../static/images/plains_with_town_128x128_1.png"/>'
+      } else {
+        this.worldMap[this.currentPlayerLocation - 1] = '<img src="./../static/images/plains_128x128_1.png"/>'
+      }
     }
   }
 }
