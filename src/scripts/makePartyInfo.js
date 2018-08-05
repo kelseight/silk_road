@@ -2,14 +2,13 @@ function makeRandomName () {
   var firstNames = ['Anus', 'Spuds', 'Jeffrey', 'Jebediah', 'Geralt',
     'Pugsley', 'Nevaeh', 'Sabrina', 'John', 'Jake', 'Jill', 'Amber',
     'Jimmy', 'Jennifer', 'Brad', 'Brian', 'Beaux', 'Christina', 'Kelly',
-    'Rebius', 'James']
+    'Rebius', 'Jorp']
   var surNames = ['Carlisle', 'MacKenzie', 'Tiefenthaler', 'Crunk',
     'Addams', 'Priest', 'Aronofsky', 'Easton', 'Tosqui', 'Tostado',
     'Tovar', 'Tranquilino', 'Trebino', 'Trejo', 'Trevino', 'Trexo',
     'Trillo', 'Trinidad', 'Tristan', 'Triyo', 'Troche', 'Troncoso',
     'Trujillo', 'Truxeque', 'Truxillo', 'Tunal', 'Turrubiartes',
-    'Ubaldo', 'Uballe', 'Ubeda', 'Udave', 'Drunkston', 'George',
-    'Faraday', 'Greeth']
+    'Ubaldo', 'Uballe', 'Ubeda', 'Udave', 'Clingingham']
 
   var firstName = firstNames[Math.floor(firstNames.length * Math.random())]
   var surName = surNames[Math.floor(surNames.length * Math.random())]
