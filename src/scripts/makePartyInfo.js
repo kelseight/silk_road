@@ -37,4 +37,4 @@ function makePartyInfo (nMembers = 4,
   return partyInfo
 }
 
-export default makePartyInfo 
+export default makePartyInfo
