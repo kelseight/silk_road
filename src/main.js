@@ -23,7 +23,18 @@ const currentPlayerInfo = {
   location: 0,
   day: 0,
   atTown: 0,
-  alive: true
+  alive: true,
+  coin: 100,
+  inventory: {
+    'salt': {
+      description: 'It\'s salt.',
+      quantity: 10
+    },
+    'water': {
+      description: 'It\'s water.  Very drinkable.',
+      quantity: 20
+    }
+  }
 }
 
 const townInfo = makeTownInfo()

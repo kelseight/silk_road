@@ -13,6 +13,18 @@
     <v-container grid-list-md text-xs-center>
       <v-layout row wrap>
         <v-flex xs12>
+          <v-card dark color="red lighten-1" v-if="!Object.keys(currentEvents).lenght">
+            <v-card-text class="px-0" v-for="(value, eventName, index) in currentEvents" :key="`eventName-${index}`">
+              <h3>{{ eventName}}: {{ value.description }}</h3>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+
+    <v-container grid-list-md text-xs-center>
+      <v-layout row wrap>
+        <v-flex xs12>
           <v-card dark color="green lighten-1" v-if="currentTown">
             <v-card-text class="px-0">
               <h3><v-icon>home</v-icon> You arrive at {{currentTown}}.</h3>
@@ -41,6 +53,23 @@
               <h2>Debug Information</h2>
               <p><b>Day</b>: {{ $store.state.currentPlayerInfo.day }}</p>
               <p><b>Location</b>: {{ currentPlayerLocation }}</p>
+            </v-card-text>
+          </v-card>
+          <br/>
+          <v-card dark color="blue lighten-2">
+            <v-card-text class="px-0">
+              <h2>Items</h2>
+              <ul style="list-style-type: none; padding: 0; margin: 0;">
+                <li v-for="(itemInfo, item, index) in partyInventory" :key="`partyInventory-${index}`">
+                  <ul style="list-style-type: none; padding: 0; margin: 0;">
+                    <li><b><v-tooltip bottom>
+                      <span style="color: #0044aa;" slot="activator">{{ item }}: {{ itemInfo.quantity }}</span>
+                      <span>{{ itemInfo.description }}</span>
+                    </v-tooltip></b></li>
+                    <li>&nbsp;</li>
+                  </ul>
+                </li>
+              </ul>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -79,13 +108,27 @@
 </template>
 
 <script>
+// TODO: How to call functions like this.nextDay() from this?
+const dailyEvents = {
+  'Severe Thunderstorm': {
+    probability: 0.01,
+    description: 'A severe thunderstorm.  Lose a day.',
+    eventEffect: () => {
+      // this.nextDay(0)
+      Math.random()
+    }
+  }
+}
+
 export default {
   name: 'Game',
   data: function () {
     return {
       advanceButtonActive: true,
       currentTown: false,
-      atEnd: false
+      atEnd: false,
+      currentEvents: {},
+      dailyEvents: dailyEvents
     }
   },
   computed: {
@@ -93,7 +136,7 @@ export default {
       return this.$store.state.currentPlayerInfo.location
     },
     partyInventory () {
-      return this.$store.state.partyInfo.inventory
+      return this.$store.state.currentPlayerInfo.inventory
     },
     partyMembers () {
       return this.$store.state.partyInfo.partyMembers
@@ -110,6 +153,11 @@ export default {
       // Make sure alive.
       // All HP stuff goes here, before we move.
       // TODO: Decrease HP as necessary.
+
+      // Reset events
+      this.currentEvents = {}
+      this.getRandomEvents()
+
       this.$store.commit('checkPartyHealth')
 
       if (this.isAtTown(locationDelta)) {
@@ -122,6 +170,10 @@ export default {
       }
 
       this.$store.commit('advanceDay')
+
+      for (var currentEvent in this.currentEvents) {
+        this.currentEvents[currentEvent].eventEffect()
+      }
     },
     isAtTown: function (locationDelta) {
       // Can prob redo this and isAtEnd.
@@ -150,6 +202,13 @@ export default {
     getRandomPartyMember: function () {
       var keys = Object.keys(this.partyMembers)
       return keys[keys.length * Math.random() << 0]
+    },
+    getRandomEvents: function () {
+      for (const ev in this.dailyEvents) {
+        if (this.dailyEvents[ev].probability > Math.random()) {
+          this.currentEvents[ev] = this.dailyEvents[ev]
+        }
+      }
     }
   }
 }
