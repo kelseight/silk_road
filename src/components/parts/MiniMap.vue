@@ -4,7 +4,9 @@
       <v-flex xs12>
         <v-card flat color="grey lighten-5">
           <v-card-text class="px-0">
-            <p class="map-text" v-html="worldMap.slice(Math.max(0,  location - 1), Math.min(location + 4, mapLength)).join('')"></p>
+            <div class="map-div">
+            <p class="map-text" v-html="worldMapWindow"></p>
+          </div>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -19,7 +21,8 @@ export default {
   name: 'MiniMap',
   data: function () {
     return {
-      worldMap: []
+      worldMap: [],
+      worldMapWindowSize: 4
     }
   },
   computed: {
@@ -31,7 +34,17 @@ export default {
     ]),
     ...mapGetters('player', [
       'location'
-    ])
+    ]),
+    worldMapWindow: function () {
+      if (this.location === 0) {
+        return this.worldMap.slice(0, this.worldMapWindowSize).join('')
+      } else if (this.location + this.worldMapWindowSize - 1 > this.mapLength) {
+        return this.worldMap.slice(this.mapLength - this.worldMapWindowSize, this.mapLength).join('')
+      } else {
+        return this.worldMap.slice(this.location - 1, this.location + this.worldMapWindowSize - 1).join('')
+      }
+    }
+
   },
   created () {
     // Init worldmap with plains.
@@ -65,3 +78,14 @@ export default {
   }
 }
 </script>
+
+<style>
+.map-div {
+   white-space: nowrap;
+}
+
+.map-div img {
+  display: inline;
+  float: none;
+}
+</style>
