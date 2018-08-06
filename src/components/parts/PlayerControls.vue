@@ -28,6 +28,9 @@ export default {
     ]),
     ...mapGetters('player', [
       'atEnd'
+    ]),
+    ...mapGetters('world', [
+      'worldType'
     ])
   },
   methods: {

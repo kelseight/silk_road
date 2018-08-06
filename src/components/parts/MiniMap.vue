@@ -30,7 +30,9 @@ export default {
       'mapLength',
       'townInfo',
       'townLocations',
-      'townNameForLocation'
+      'townNameForLocation',
+      'worldType',
+      'mapBlocks'
     ]),
     ...mapGetters('player', [
       'location'
@@ -44,35 +46,34 @@ export default {
         return this.worldMap.slice(this.location - 1, this.location + this.worldMapWindowSize - 1).join('')
       }
     }
-
   },
   created () {
     // Init worldmap with plains.
-    this.worldMap = Array.apply(null, Array(this.mapLength)).map(String.prototype.valueOf, '<img src="./../static/images/plains_128x128_1.png"/>')
+    this.worldMap = Array.apply(null, Array(this.mapLength)).map(String.prototype.valueOf, '<img src="' + this.mapBlocks[this.worldType]['base1'] + '"/>')
 
     // For towns, put the town image in.
     for (var idx = 0; idx < this.townLocations.length; idx++) {
-      this.worldMap[this.townLocations[idx]] = '<img src="./../static/images/plains_with_town_128x128_1.png"/>'
+      this.worldMap[this.townLocations[idx]] = '<img src="' + this.mapBlocks[this.worldType]['base1_with_town1'] + '"/>'
     }
 
     // Put in Start and End
-    this.worldMap[0] = '<img src="./../static/images/plains_with_town_with_wagon_128x128_1.png"/>'
-    this.worldMap[this.mapLength - 1] = '<img src="./../static/images/plains_with_town_128x128_1.png"/>'
+    this.worldMap[0] = '<img src="' + this.mapBlocks[this.worldType]['base1_with_town1_with_vehicle1'] + '"/>'
+    this.worldMap[this.mapLength - 1] = '<img src="' + this.mapBlocks[this.worldType]['base1_with_town1'] + '"/>'
   },
   watch: {
     location () {
       // Create new wagon.
       if (this.townLocations.includes(this.location) || this.location === (this.mapLength - 1)) {
-        this.worldMap[this.location] = '<img src="./../static/images/plains_with_town_with_wagon_128x128_1.png"/>'
+        this.worldMap[this.location] = '<img src="' + this.mapBlocks[this.worldType]['base1_with_town1_with_vehicle1'] + '"/>'
       } else {
-        this.worldMap[this.location] = '<img src="./../static/images/plains_with_wagon_128x128_1.png"/>'
+        this.worldMap[this.location] = '<img src="' + this.mapBlocks[this.worldType]['base1_with_vehicle1'] + '"/>'
       }
 
       // Delete old wagon trailing you.
       if (this.townLocations.includes(this.location - 1) || this.location === 1) {
-        this.worldMap[this.location - 1] = '<img src="./../static/images/plains_with_town_128x128_1.png"/>'
+        this.worldMap[this.location - 1] = '<img src="' + this.mapBlocks[this.worldType]['base1_with_town1'] + '"/>'
       } else {
-        this.worldMap[this.location - 1] = '<img src="./../static/images/plains_128x128_1.png"/>'
+        this.worldMap[this.location - 1] = '<img src="' + this.mapBlocks[this.worldType]['base1'] + '"/>'
       }
     }
   }
