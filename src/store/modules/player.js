@@ -7,7 +7,8 @@ const state = {
 // getters
 const getters = {
   location: (state) => { return state.location },
-  day: (state) => { return state.day }
+  day: (state) => { return state.day },
+  atEnd: (state, getters, rootState, rootGetters) => { return state.location === (rootGetters['world/mapLength'] - 1) }
 }
 
 // mutations
@@ -22,9 +23,10 @@ const mutations = {
 
 // actions
 const actions = {
-  takeTurn ({ state, commit }) {
+  takeTurn ({ state, commit, dispatch }) {
     commit('advanceLocation', 1)
     commit('advanceDay', 1)
+    dispatch('party/checkPartyHealth', null, { root: true })
   }
 }
 

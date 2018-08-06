@@ -17,7 +17,7 @@
                 </li>
               </ul>
 
-              <!-- <h2>Graveyard</h2>
+              <h2>Graveyard</h2>
               <ul style="list-style-type: none; padding: 0; margin: 0;">
                 <li v-for="(partyMember, index) in deadPartyMembers" :key="`deadPartyMember-${index}`">
                   <ul style="list-style-type: none; padding: 0; margin: 0;">
@@ -25,7 +25,7 @@
                     <li>&nbsp;</li>
                   </ul>
                 </li>
-              </ul> -->
+              </ul>
 
             </v-card-text>
           </v-card>

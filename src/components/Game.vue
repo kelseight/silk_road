@@ -2,10 +2,8 @@
   <v-container fluid>
 
     <player-controls/>
+    <mini-map/>
 
-    <!-- <br/><br/><hr/><br/> -->
-
-    <!-- <mini-map/> -->
 
     <!-- <v-container grid-list-md text-xs-center>
       <v-layout row wrap>
@@ -21,7 +19,7 @@
 
     <v-container grid-list-md text-xs-center>
       <v-layout row wrap>
-        <v-flex xs12>
+        <!-- <v-flex xs12>
           <v-card dark color="green lighten-1" v-if="currentTown">
             <v-card-text class="px-0">
               <h3><v-icon>home</v-icon> You arrive at {{currentTown}}.</h3>
@@ -42,7 +40,7 @@
               <h3>You're on the trail.</h3>
             </v-card-text>
           </v-card>
-        </v-flex>
+        </v-flex> -->
 
         <v-flex xs6>
           <world-info/>
@@ -76,92 +74,24 @@
 </template>
 
 <script>
-// TODO: How to call functions like this.nextDay() from this?
-const dailyEvents = {
-  'Severe Thunderstorm': {
-    probability: 0.01,
-    description: 'A severe thunderstorm.  Lose a day.',
-    eventEffect: () => {
-      // this.nextDay(0)
-      Math.random()
-    }
-  }
-}
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Game',
-  data: function () {
-    return {
-      advanceButtonActive: true,
-      currentTown: false,
-      atEnd: false,
-      currentEvents: {},
-      dailyEvents: dailyEvents,
-      isAlive: true
+  computed: {
+    ...mapGetters('player', [
+      'location',
+      'atEnd'
+    ]),
+    ...mapGetters('party', [
+      'mapLength',
+      'townLocations',
+      'townNameForLocation'
+    ]),
+    atEnd: function () {
+      return this.location === this.mapLength - 1
     }
   }
-  // methods: {
-  //   nextDay: function (locationDelta) {
-  //     // Make sure alive.
-  //     // All HP stuff goes here, before we move.
-  //     // TODO: Decrease HP as necessary.
-  //
-  //     // Reset events
-  //     this.currentEvents = {}
-  //     this.getRandomEvents()
-  //
-  //     this.$store.commit('checkPartyHealth')
-  //
-  //     if (this.isAtTown(locationDelta)) {
-  //       this.$store.commit('advanceLocation', {amount: this.isAtTown(locationDelta)})
-  //     } else if (this.isAtEnd(locationDelta)) {
-  //       this.$store.commit('advanceLocation', {amount: this.$store.state.mapLength - this.currentPlayerLocation})
-  //       this.atEnd = true
-  //     } else {
-  //       this.$store.commit('advanceLocation', {amount: locationDelta})
-  //     }
-  //
-  //     this.$store.commit('advanceDay')
-  //
-  //     for (var currentEvent in this.currentEvents) {
-  //       this.currentEvents[currentEvent].eventEffect()
-  //     }
-  //   },
-  //   isAtTown: function (locationDelta) {
-  //     // Can prob redo this and isAtEnd.
-  //     // BUG: should stay in town after resting.
-  //     for (var town in this.$store.state.townInfo) {
-  //       if (this.$store.state.townInfo[town]['location'] > this.currentPlayerLocation &
-  //           this.$store.state.townInfo[town]['location'] <= this.currentPlayerLocation + locationDelta) {
-  //         this.currentTown = town
-  //         // return diff between you and the town.
-  //         return this.$store.state.townInfo[town]['location'] - this.currentPlayerLocation
-  //       }
-  //     }
-  //     this.currentTown = false
-  //     return false
-  //   },
-  //   isAtEnd: function (locationDelta) {
-  //     if (this.currentPlayerLocation + locationDelta >= this.$store.state.mapLength) {
-  //       return true
-  //     }
-  //     return false
-  //   },
-  //   modifyHP: function (member, amount) {
-  //     this.$store.commit('modifyHP', {member: member, amount: amount})
-  //   },
-  //   getRandomPartyMember: function () {
-  //     var keys = Object.keys(this.partyMembers)
-  //     return keys[keys.length * Math.random() << 0]
-  //   },
-  //   getRandomEvents: function () {
-  //     for (const ev in this.dailyEvents) {
-  //       if (this.dailyEvents[ev].probability > Math.random()) {
-  //         this.currentEvents[ev] = this.dailyEvents[ev]
-  //       }
-  //     }
-  //   }
-  // }
 }
 </script>
 
