@@ -70,6 +70,7 @@ export default {
       }
 
       // Delete old wagon trailing you.
+      // TODO: This doesn't work with anything but 1.
       if (this.townLocations.includes(this.location - 1) || this.location === 1) {
         this.worldMap[this.location - 1] = '<img src="' + this.mapBlocks[this.worldType]['base1_with_town1'] + '"/>'
       } else {

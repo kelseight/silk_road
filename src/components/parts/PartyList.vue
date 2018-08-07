@@ -8,20 +8,23 @@
               <h2>Party</h2>
               <br/>
               <ul style="list-style-type: none; padding: 0; margin: 0;">
-                <li v-for="(partyMemberInfo, partyMember, index) in partyMembersInfo" :key="`partyMembersInfo-${index}`">
-                  <ul style="list-style-type: none; padding: 0; margin: 0;">
-                    <li><b><span style="color: #4400aa;">{{ partyMember }}</span></b></li>
-                    <li><b>HP</b>: {{ partyMembersInfo[partyMember].hp }}</li>
-                    <li>&nbsp;</li>
-                  </ul>
+                <li v-for="(memberStat, memberName, index) in memberStatus" :key="`memberInfo-${index}`">
+                  <div v-if="!deadMembers.includes(memberName)">
+                    <ul style="list-style-type: none; padding: 0; margin: 0;">
+                      <li><b><span style="color: #4400aa;">{{ memberName }}</span></b></li>
+                      <li><b>HP</b>: {{ memberStatus[memberName].hp }}</li>
+                      <li>&nbsp;</li>
+                    </ul>
+                  </div>
                 </li>
               </ul>
 
               <h2>Graveyard</h2>
+              <br/>
               <ul style="list-style-type: none; padding: 0; margin: 0;">
-                <li v-for="(partyMember, index) in deadPartyMembers" :key="`deadPartyMember-${index}`">
+                <li v-for="(member, index) in deadMembers" :key="`deadMembers-${index}`">
                   <ul style="list-style-type: none; padding: 0; margin: 0;">
-                    <li><b><span style="color: #4400aa;">{{ partyMember }}</span></b></li>
+                    <li><b><span style="color: #4400aa;">{{ member }}</span></b></li>
                     <li>&nbsp;</li>
                   </ul>
                 </li>
@@ -43,11 +46,9 @@ export default {
   name: 'PartyList',
   computed: {
     ...mapGetters('party', [
-      'partyInfo',
-      'partyMembersInfo',
-      'deadPartyMembers',
-      'inventory',
-      'partyMemberInfo'
+      'deadMembers',
+      'members',
+      'memberStatus'
     ])
   }
 }

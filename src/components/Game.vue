@@ -19,28 +19,9 @@
 
     <v-container grid-list-md text-xs-center>
       <v-layout row wrap>
-        <!-- <v-flex xs12>
-          <v-card dark color="green lighten-1" v-if="currentTown">
-            <v-card-text class="px-0">
-              <h3><v-icon>home</v-icon> You arrive at {{currentTown}}.</h3>
-            </v-card-text>
-          </v-card>
-          <v-card dark color="green lighten-1" v-else-if="atEnd">
-            <v-card-text class="px-0">
-              <h3><v-icon>business</v-icon>You reached the end!</h3>
-            </v-card-text>
-          </v-card>
-          <v-card dark color="red lighten-1" v-else-if="!isAlive">
-            <v-card-text class="px-0">
-              <h3><v-icon>gavel</v-icon>Your party is dead.</h3>
-            </v-card-text>
-          </v-card>
-          <v-card dark color="green lighten-1" v-else>
-            <v-card-text class="px-0">
-              <h3>You're on the trail.</h3>
-            </v-card-text>
-          </v-card>
-        </v-flex> -->
+        <v-flex xs12>
+          <town-bar/>
+        </v-flex>
 
         <v-flex xs6>
           <world-info/>
@@ -81,7 +62,7 @@ export default {
   computed: {
     ...mapGetters('player', [
       'location',
-      'atEnd'
+      'isAtEnd'
     ]),
     ...mapGetters('party', [
       'mapLength',

@@ -5,14 +5,13 @@
         <v-flex xs12>
           <v-card dark color="blue lighten-2">
             <v-card-text class="px-0">
-              <h2>Debug Information</h2>
-              <br/>
-              <p><b>Day</b>: {{ day }}</p>
-              <p><b>Location</b>: {{ location }}</p>
-              <p><b>Coins</b>: {{ coinAmount }}</p>
+              <h3 v-if="isAtTown">You've reached {{ townNameForLocation(location) }}.</h3>
+              <h3 v-else-if="isAtEnd">You've reached your destination!</h3>
+              <h3 v-else>On the trail...</h3>
             </v-card-text>
           </v-card>
         </v-flex>
+
       </v-layout>
     </v-container>
   </v-container>
@@ -22,14 +21,15 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'WorldInfo',
+  name: 'TownBar',
   computed: {
     ...mapGetters('player', [
-      'location',
-      'day'
+      'isAtTown',
+      'isAtEnd',
+      'location'
     ]),
-    ...mapGetters('party', [
-      'coinAmount'
+    ...mapGetters('world', [
+      'townNameForLocation'
     ])
   }
 }
