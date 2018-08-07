@@ -1,17 +1,13 @@
 <template>
-  <v-container text-xs-center>
-    <v-layout row wrap>
-      <v-flex xs12>
-        <v-card flat color="grey lighten-5">
-          <v-card-text class="px-0">
-            <div class="map-div">
-            <p class="map-text" v-html="worldMapWindow"></p>
-          </div>
-          </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <div>
+    <v-card flat color="grey lighten-5">
+      <v-card-text class="px-0">
+        <div class="map-div">
+          <span class="map-text" v-html="worldMapWindow"></span>
+        </div>
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
 
 <script>

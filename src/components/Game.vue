@@ -1,8 +1,18 @@
 <template>
   <v-container fluid>
 
-    <player-controls/>
-    <mini-map/>
+    <v-container grid-list-md text-xs-center class="no-bottom-padding">
+      <v-layout row wrap>
+        <v-flex xs12>
+          <player-controls/>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
+        <v-flex xs12>
+          <mini-map/>
+        </v-flex>
+      </v-layout>
+    </v-container>
 
 
     <!-- <v-container grid-list-md text-xs-center>
@@ -79,5 +89,9 @@ export default {
 <style scoped>
 h2 {
   margin-bottom: 1rem;
+}
+
+.no-bottom-padding {
+  padding-bottom: 0;
 }
 </style>

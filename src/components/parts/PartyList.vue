@@ -1,42 +1,34 @@
 <template>
-  <v-container fluid>
-    <v-container grid-list-md text-xs-center>
-      <v-layout row wrap>
-        <v-flex xs12>
-          <v-card dark color="blue lighten-2">
-            <v-card-text class="px-0">
-              <h2>Party</h2>
-              <br/>
+  <div>
+    <v-card dark color="blue lighten-2">
+      <v-card-text class="px-0">
+        <h2>Party</h2>
+        <br/>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+          <li v-for="(memberStat, memberName, index) in memberStatus" :key="`memberInfo-${index}`">
+            <div v-if="!deadMembers.includes(memberName)">
               <ul style="list-style-type: none; padding: 0; margin: 0;">
-                <li v-for="(memberStat, memberName, index) in memberStatus" :key="`memberInfo-${index}`">
-                  <div v-if="!deadMembers.includes(memberName)">
-                    <ul style="list-style-type: none; padding: 0; margin: 0;">
-                      <li><b><span style="color: #4400aa;">{{ memberName }}</span></b></li>
-                      <li><b>HP</b>: {{ memberStatus[memberName].hp }}</li>
-                      <li>&nbsp;</li>
-                    </ul>
-                  </div>
-                </li>
+                <li><b><span style="color: #4400aa;">{{ memberName }}</span></b></li>
+                <li><b>HP</b>: {{ memberStatus[memberName].hp }}</li>
+                <li>&nbsp;</li>
               </ul>
+            </div>
+          </li>
+        </ul>
 
-              <h2>Graveyard</h2>
-              <br/>
-              <ul style="list-style-type: none; padding: 0; margin: 0;">
-                <li v-for="(member, index) in deadMembers" :key="`deadMembers-${index}`">
-                  <ul style="list-style-type: none; padding: 0; margin: 0;">
-                    <li><b><span style="color: #4400aa;">{{ member }}</span></b></li>
-                    <li>&nbsp;</li>
-                  </ul>
-                </li>
-              </ul>
-
-            </v-card-text>
-          </v-card>
-        </v-flex>
-
-      </v-layout>
-    </v-container>
-  </v-container>
+        <h2>Graveyard</h2>
+        <br/>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+          <li v-for="(member, index) in deadMembers" :key="`deadMembers-${index}`">
+            <ul style="list-style-type: none; padding: 0; margin: 0;">
+              <li><b><span style="color: #4400aa;">{{ member }}</span></b></li>
+              <li>&nbsp;</li>
+            </ul>
+          </li>
+        </ul>
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
 
 <script>
