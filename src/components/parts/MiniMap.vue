@@ -4,7 +4,9 @@
       <v-flex xs12>
         <v-card flat color="grey lighten-5">
           <v-card-text class="px-0">
-            <p class="map-text" v-html="worldMap.slice(Math.max(0,  currentPlayerLocation - 1), Math.min(currentPlayerLocation + 4, mapSize + 1)).join('')"></p>
+            <div class="map-div">
+            <p class="map-text" v-html="worldMapWindow"></p>
+          </div>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -13,50 +15,66 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'MiniMap',
   data: function () {
     return {
-      worldMap: null,
-      playerMap: null,
-      mapSize: 20,
-      townLocs: [0, 20]
+      worldMap: [],
+      worldMapWindowSize: 4
+    }
+  },
+  computed: {
+    ...mapGetters('world', [
+      'mapLength',
+      'townInfo',
+      'townLocations',
+      'townNameForLocation',
+      'worldType',
+      'mapBlocks'
+    ]),
+    ...mapGetters('player', [
+      'location'
+    ]),
+    worldMapWindow: function () {
+      if (this.location === 0) {
+        return this.worldMap.slice(0, this.worldMapWindowSize).join('')
+      } else if (this.location + this.worldMapWindowSize - 1 > this.mapLength) {
+        return this.worldMap.slice(this.mapLength - this.worldMapWindowSize, this.mapLength).join('')
+      } else {
+        return this.worldMap.slice(this.location - 1, this.location + this.worldMapWindowSize - 1).join('')
+      }
     }
   },
   created () {
-    this.worldMap = Array.apply(null, Array(this.mapSize)).map(String.prototype.valueOf, '<img src="./../static/images/plains_128x128_1.png"/>')
+    // Init worldmap with plains.
+    this.worldMap = Array.apply(null, Array(this.mapLength)).map(String.prototype.valueOf, '<img src="' + this.mapBlocks[this.worldType]['base1'] + '"/>')
 
-    // Put in the towns from the town locations.
-    for (var town in this.$store.state.townInfo) {
-      this.townLocs.push(this.$store.state.townInfo[town].location)
-    }
-    for (var idx = 0; idx < this.townLocs.length; idx++) {
-      this.worldMap[this.townLocs[idx]] = '<img src="./../static/images/plains_with_town_128x128_1.png"/>'
+    // For towns, put the town image in.
+    for (var idx = 0; idx < this.townLocations.length; idx++) {
+      this.worldMap[this.townLocations[idx]] = '<img src="' + this.mapBlocks[this.worldType]['base1_with_town1'] + '"/>'
     }
 
     // Put in Start and End
-    this.worldMap[0] = '<img src="./../static/images/plains_with_town_with_wagon_128x128_1.png"/>'
-    this.worldMap[this.worldMap.length] = '<img src="./../static/images/plains_with_town_128x128_1.png"/>'
-  },
-  computed: {
-    currentPlayerLocation () {
-      return this.$store.state.currentPlayerInfo.location
-    }
+    this.worldMap[0] = '<img src="' + this.mapBlocks[this.worldType]['base1_with_town1_with_vehicle1'] + '"/>'
+    this.worldMap[this.mapLength - 1] = '<img src="' + this.mapBlocks[this.worldType]['base1_with_town1'] + '"/>'
   },
   watch: {
-    currentPlayerLocation () {
+    location () {
       // Create new wagon.
-      if (this.townLocs.includes(this.currentPlayerLocation)) {
-        this.worldMap[this.currentPlayerLocation] = '<img src="./../static/images/plains_with_town_with_wagon_128x128_1.png"/>'
+      if (this.townLocations.includes(this.location) || this.location === (this.mapLength - 1)) {
+        this.worldMap[this.location] = '<img src="' + this.mapBlocks[this.worldType]['base1_with_town1_with_vehicle1'] + '"/>'
       } else {
-        this.worldMap[this.currentPlayerLocation] = '<img src="./../static/images/plains_with_wagon_128x128_1.png"/>'
+        this.worldMap[this.location] = '<img src="' + this.mapBlocks[this.worldType]['base1_with_vehicle1'] + '"/>'
       }
 
       // Delete old wagon trailing you.
-      if (this.townLocs.includes(this.currentPlayerLocation - 1)) {
-        this.worldMap[this.currentPlayerLocation - 1] = '<img src="./../static/images/plains_with_town_128x128_1.png"/>'
+      // TODO: This doesn't work with anything but 1.
+      if (this.townLocations.includes(this.location - 1) || this.location === 1) {
+        this.worldMap[this.location - 1] = '<img src="' + this.mapBlocks[this.worldType]['base1_with_town1'] + '"/>'
       } else {
-        this.worldMap[this.currentPlayerLocation - 1] = '<img src="./../static/images/plains_128x128_1.png"/>'
+        this.worldMap[this.location - 1] = '<img src="' + this.mapBlocks[this.worldType]['base1'] + '"/>'
       }
     }
   }
@@ -64,12 +82,12 @@ export default {
 </script>
 
 <style>
-.map-text {
-  font-family: monospace;
-  padding-bottom: 0;
-  line-height: 0;
-  font-weight: bolder;
-  font-size: 16px;
-  margin-left: 10px
+.map-div {
+   white-space: nowrap;
+}
+
+.map-div img {
+  display: inline;
+  float: none;
 }
 </style>

@@ -26,7 +26,7 @@ function makeRandomName () {
     'Portress', 'Oeuf', 'Checkers', 'Fluffyboye', 'Davidson', 'Pril',
     'Atkinson', 'Attaway', 'Blandino', 'Carson', 'Doolittle', 'Eggsy',
     'Franklin', 'Ginger', 'Holloway', 'Ingraham', 'Jackson', 'King',
-    'Lee', 'Motorhead', 'Nichols', 'OConnell', 'Papadopolous', 'Quora',
+    'Lee', 'Motorhead', 'Nichols', 'O\'Connell', 'Papadopolous', 'Quora',
     'Reed', 'Squarepants', 'Tinkletown', 'Urkler', 'Van Halen', 'Wong',
     'Xi', 'Yesman', 'Zod', 'Eames', 'Cobb', 'Prince', 'Curry']
 
@@ -37,21 +37,18 @@ function makeRandomName () {
 }
 
 function makePartyInfo (nMembers = 4,
-                        startingHP = 100,
-                        startingInventory = {'salt': 20}
+                        startingHP = 100
                       ) {
   var partyInfo = {}
+  partyInfo['deadMembers'] = []
+  partyInfo['members'] = []
+  partyInfo['memberStatus'] = {}
 
-  // Make player details
-  var partyMembers = {}
   for (var idx = 0; idx < nMembers; idx++) {
-    // TODO: Check for no dupes.
-    partyMembers[makeRandomName()] = {hp: 100}
+    var memberName = makeRandomName()
+    partyInfo['members'].push(memberName)
+    partyInfo['memberStatus'][memberName] = { hp: startingHP }
   }
-
-  partyInfo['partyMembers'] = partyMembers
-  partyInfo['deadPartyMembers'] = []
-  partyInfo['inventory'] = startingInventory
 
   return partyInfo
 }
